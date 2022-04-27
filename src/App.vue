@@ -10,28 +10,32 @@
     <option>TR1</option>
     <option>RU</option>
   </select>
-  <input v-model="summoner">
-  <button @click="getSummoner">Get {{ summoner }}</button>
-  <pre>{{ results }}</pre>
+  <input v-model="summonerSearch">
+  <button @click="getSummoner">Get {{ summonerSearch }}</button>
+  <BasicSummonerInfo v-if="results" :name="results[0]" :level="results[1]" />
 </template>
 
 <script>
 const axios = require('axios').default
+import BasicSummonerInfo from "@/components/BasicSummonerInfo";
 export default {
   name: 'App',
+  components: {
+    BasicSummonerInfo
+  },
 
   data() {
     return {
       region: null,
-      summoner: null,
-      results: null
+      summonerSearch: null,
+      results: null,
     }
   },
   methods: {
     async getSummoner() {
-      axios.get(`http://localhost:3000/${this.region}/summoner/${this.summoner}`)
+      axios.get(`http://localhost:3000/${this.region}/summoner/${this.summonerSearch}`)
       .then((response) => {
-        this.results = response.data;
+        this.results = [response.data.name, response.data.summonerLevel]
       })
       .catch((error) => {
         this.results = error;

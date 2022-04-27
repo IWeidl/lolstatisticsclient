@@ -1,15 +1,49 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <select v-model="region">
+    <option>OC1</option>
+    <option>NA1</option>
+    <option>EUN1</option>
+    <option>EUW1</option>
+    <option>JP1</option>
+    <option>KR</option>
+    <option>BR1</option>
+    <option>TR1</option>
+    <option>RU</option>
+  </select>
+  <input v-model="summonerSearch">
+  <button @click="getSummoner">Get {{ summonerSearch }}</button>
+  <BasicSummonerInfo v-if="results" :name="results[0]" :level="results[1]" />
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+const axios = require('axios').default
+import BasicSummonerInfo from "@/components/BasicSummonerInfo";
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    BasicSummonerInfo
+  },
+
+  data() {
+    return {
+      region: 'OC1',
+      summonerSearch: null,
+      results: null,
+    }
+  },
+  methods: {
+    async getSummoner() {
+      axios.get(`http://localhost:3000/${this.region}/summoner/${this.summonerSearch}`)
+      .then((response) => {
+        this.results = [response.data.name, response.data.summonerLevel]
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+      .then(() => {
+      })
+
+    }
   }
 }
 </script>

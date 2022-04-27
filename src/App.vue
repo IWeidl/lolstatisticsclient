@@ -26,7 +26,7 @@ export default {
 
   data() {
     return {
-      region: null,
+      region: 'OC1',
       summonerSearch: null,
       results: null,
     }

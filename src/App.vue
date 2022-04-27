@@ -38,7 +38,7 @@ export default {
         this.results = [response.data.name, response.data.summonerLevel]
       })
       .catch((error) => {
-        this.results = error;
+        console.log(error)
       })
       .then(() => {
       })

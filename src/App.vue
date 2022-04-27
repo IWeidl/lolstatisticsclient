@@ -1,15 +1,31 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <button @click="getSummoner">GET EXLEX</button>
+  <pre>{{ results }}</pre>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+const axios = require('axios').default
 export default {
   name: 'App',
-  components: {
-    HelloWorld
+
+  data() {
+    return {
+      results: null
+    }
+  },
+  methods: {
+    async getSummoner() {
+      axios.get('http://localhost:3000/oc1/summoner/exlex')
+      .then((response) => {
+        this.results = response.data;
+      })
+      .catch((error) => {
+        this.results = error;
+      })
+      .then(() => {
+      })
+
+    }
   }
 }
 </script>
